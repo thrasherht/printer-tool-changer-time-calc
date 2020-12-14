@@ -3,10 +3,15 @@
 # Author: ThrasherHT (Tayler Sewell)
 # Purpose: Written for BradR to calculate tool change time on his E3D tool changer
 
+#setup base variables
 count=0
 file="$1"
 psestimate="$2"
 
+#Time it takes for tool change to take place
+toolchangetime="19"
+
+#Usage information for script
 usage(){
 	echo "Provide a filename and print estimate from slicer"
 	echo "$0 file 01:20:30 (days:hours:minutes)"
@@ -14,9 +19,12 @@ usage(){
 }
 
 
+#check for proper arguments
 if [[ -z $1 ]] || [[ -z $2 ]]; then
 	usage
 fi
+
+#Parse input file and look for tool change commands
 for i in $(cat $file |grep ^T |grep -v 'T-1'); do 
 	((count++))
 done
@@ -40,9 +48,11 @@ else
 fi
 
 
+#Calculate times
 echo "Tool changes: $count"
-low=$(echo "(($count * 30) / 60) + $simpleminutes" | bc)
-high=$(echo "(($count * 45) / 60) + $simpleminutes" | bc)
+tctime=$(echo "$count * $toolchangetime" | bc)
+totalest=$(echo "(($count * $toolchangetime) / 60) + $simpleminutes" | bc)
 
-echo "Low estimate (minutes): $low"
-echo "High estimate (minutes): $high";
+#Output times estimated for print
+echo "Tool change time: $tctime"
+echo "Total print estimate (minutes): $totalest";
