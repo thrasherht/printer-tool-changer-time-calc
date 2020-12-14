@@ -50,8 +50,8 @@ fi
 
 #Calculate times
 echo "Tool changes: $count"
-tctime=$(echo "$count * $toolchangetime" | bc)
-totalest=$(echo "(($count * $toolchangetime) / 60) + $simpleminutes" | bc)
+tctime=$(echo "($count * $toolchangetime) / 60" | bc)
+totalest=$(echo "$tctime + $simpleminutes" | bc)
 
 #Output times estimated for print
 echo "Tool change time: $tctime"
