@@ -1,8 +1,22 @@
+#?/bin/bash
+# Tool for calculating how long tool changes will add to a 3d print
+# Author: ThrasherHT (Tayler Sewell)
+# Purpose: Written for BradR to calculate tool change time on his E3D tool changer
+
 count=0
 file="$1"
 psestimate="$2"
 
+usage(){
+	echo "Provide a filename and print estimate from slicer"
+	echo "$0 file 01:20:30 (days:hours:minutes)"
+	exit 1
+}
 
+
+if [[ -z $1 ]] || [[ -z $2 ]]; then
+	usage
+fi
 for i in $(cat $file |grep ^T |grep -v 'T-1'); do 
 	((count++))
 done
