@@ -25,7 +25,7 @@ if [[ -z $1 ]] || [[ -z $2 ]]; then
 fi
 
 #Parse input file and look for tool change commands
-for i in $(cat $file |grep ^T |grep -v 'T-1'); do 
+for i in $(cat "$file" |grep ^T |grep -v 'T-1'); do 
 	((count++))
 done
 
